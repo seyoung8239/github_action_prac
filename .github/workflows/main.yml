@@ -42,5 +42,5 @@ jobs:
                 working-directory: ${{ env.working-directory }}
         
             -   name: scp to server
-                run: scp ${{ env.working-directory }}/build root:49.50.173.53:/home
+                run: scp -P 8080 ${{ env.working-directory }}/build root:49.50.173.53:/home
         

@@ -34,11 +34,13 @@ jobs:
                         ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
             
             -   name: package install
-                run: npm install
+                run: |
+                    npm install
                 working-directory: ${{ env.working-directory }}
 
             -   name: build
-                run: npm run build
+                run: |
+                    npm run build
                 working-directory: ${{ env.working-directory }}
         
             -   name: scp to server

@@ -1,0 +1,41 @@
+name: deploy_test
+
+on:
+    push:
+        branches: [ main ]
+jobs:
+    build:
+        runs-on: linux-latest
+        
+        strategy:
+            matrix:
+                node-version: [ 16.x ]
+        
+        steps:
+            # 브랜치 체크아웃
+            -   name: checkout main branch
+                uses: actions/checkout@v2
+            
+            # Node.js 환경설정
+            -   name: use node.js ${{ matrix.node-version }}
+                uses: actions/setup-node@v1
+                with:
+                    node-version: ${{ matrix.node-version }}
+            
+            # npm caching
+            -   name: npm cache
+                uses: actions/cache@v2
+                with:
+                    path: ~/.npm
+                    key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+                    restore-keys: |
+                        ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+            
+            # install packages
+            -   name: npm install
+                run: |
+                    npm install
+            
+        
+        
+        

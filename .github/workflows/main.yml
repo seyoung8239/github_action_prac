@@ -33,11 +33,13 @@ jobs:
                     restore-keys: |
                         ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
             
-            # install packages
-            -   name: npm install
-                run: |
-                    npm install
-            
+            -   name: package install
+                run: npm install
+                working-directory: ${{ env.working-directory }}
+
+            -   name: build
+                run: npm run build
+                working-directory: ${{ env.working-directory }}
         
         
         

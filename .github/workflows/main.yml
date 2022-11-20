@@ -52,4 +52,4 @@ jobs:
                     user: ${{ secrets.SERVER_USER }}
                     pass: ${{ secrets.SERVER_PASS }}
                     run: |
-                        scp -r ./frontend/build ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/home
+                        scp -P ${{ secrets.SERVER_PORT }} -r ./frontend/build ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/home

@@ -40,9 +40,6 @@ jobs:
             -   name: build
                 run: npm run build
                 working-directory: ${{ env.working-directory }}
-        
-            # -   name: scp to server
-            #     run: scp -P 8080 -r ./frontend/build root@210.89.191.128:/home
 
             -   name: SSHPASS Github Action
                 uses: matheusvanzan/sshpass-action@v2

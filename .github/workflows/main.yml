@@ -49,4 +49,4 @@ jobs:
                     password: ${{ secrets.SERVER_PASS }}
                     port: ${{ secrets.SERVER_PORT }}
                     script: |
-                        whoami
+                        pwd

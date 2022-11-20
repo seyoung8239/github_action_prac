@@ -2,51 +2,52 @@ name: deploy_test
 
 on:
     push:
-        branches: [ main ]
+        branches: [main]
 jobs:
     build:
-        runs-on: [ ubuntu-latest ]
+        runs-on: [ubuntu-latest]
         env:
             working-directory: ./frontend
-        
+
         strategy:
             matrix:
-                node-version: [ 16.x ]
-        
+                node-version: [16.x]
+
         steps:
             # 브랜치 체크아웃
-            -   name: checkout main branch
-                uses: actions/checkout@v2
-            
+            - name: checkout main branch
+              uses: actions/checkout@v2
+
             # Node.js 환경설정
-            -   name: use node.js ${{ matrix.node-version }}
-                uses: actions/setup-node@v1
-                with:
-                    node-version: ${{ matrix.node-version }}
-            
+            - name: use node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
             # npm caching
-            -   name: cache node modules
-                uses: actions/cache@v2
-                id: cache
-                with:
-                    path: node_modules
-                    key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
-            
-            -   name: install packages
-                if: steps.cache.outputs.cache-hit!='true'
-                run: npm install
-                working-directory: ${{ env.working-directory }}
+            - name: cache node modules
+              uses: actions/cache@v2
+              id: cache
+              working-directory: ${{ env.working-directory }}
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
 
-            -   name: build
-                run: npm run build
-                working-directory: ${{ env.working-directory }}
+            - name: install packages
+              if: steps.cache.outputs.cache-hit!='true'
+              run: npm install
+              working-directory: ${{ env.working-directory }}
 
-            -   name: deploy
-                uses: appleboy/ssh-action@master
-                with:
-                    host: ${{ secrets.SERVER_HOST }}
-                    username: ${{ secrets.SERVER_USER }}
-                    password: ${{ secrets.SERVER_PASS }}
-                    port: ${{ secrets.SERVER_PORT }}
-                    script: |
-                        pwd
+            - name: build
+              run: npm run build
+              working-directory: ${{ env.working-directory }}
+
+            - name: deploy
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.SERVER_HOST }}
+                  username: ${{ secrets.SERVER_USER }}
+                  password: ${{ secrets.SERVER_PASS }}
+                  port: ${{ secrets.SERVER_PORT }}
+                  script: |
+                      pwd
